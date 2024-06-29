@@ -119,8 +119,8 @@ public class formMahaiswa extends javax.swing.JFrame {
         row = tabel_mahasiswa.getSelectedRow();
         txt_nim.setText(tableModel.getValueAt(row, 0).toString());
         txt_nama.setText(tableModel.getValueAt(row, 1).toString());
-        txt_tanggal_lahir.setText(tableModel.getValueAt(row, 2).toString());
-        txt_tempat_lahir.setText(tableModel.getValueAt(row, 3).toString());
+        txt_tempat_lahir.setText(tableModel.getValueAt(row, 2).toString());
+        txt_tanggal_lahir.setText(tableModel.getValueAt(row, 3).toString());
         txt_alamat.setText(tableModel.getValueAt(row, 4).toString());
         btn_simpan.setEnabled(false);
         btn_ubah.setEnabled(true);
@@ -516,14 +516,13 @@ public class formMahaiswa extends javax.swing.JFrame {
                 Class.forName(driver);
                 Connection kon = DriverManager.getConnection(database, user, pass);
                 Statement stt = kon.createStatement();
-                String SQL = "UPDATE `t_mahasiswa` " 
-                        + "SET `nim`='"+ nim + "',"
-                        + "`nama`='"+ nama + "',"
-                        + "`ttl`='"+ tmpt_lahir + "',"
-                        + "`tgl_lahir`='"+ tgl_lahir + "',"
-                        + "`alamat`='"+ almt + "' "
-                        + "WHERE "
-                        + "'nim' = '" + tableModel.getValueAt(row, 0).toString()+"';";
+                String SQL = "UPDATE t_mahasiswa SET "
+                        + "nim = '" + nim + "', "
+                        + "nama = '" + nama + "', "
+                        + "ttl = '" + tmpt_lahir + "', "
+                        + "tgl_lahir = DATE'" + tgl_lahir + "', "
+                        + "alamat = '" + almt + "'" 
+                        + "WHERE nim = " + tableModel.getValueAt(row, 0) + ";";
                 stt.executeUpdate(SQL);
                 data[0] = nim;
                 data[1] = nama;
