@@ -77,6 +77,12 @@ public class formMahaiswa extends javax.swing.JFrame {
             res.close();
             stt.close();
             kon.close();
+            btn_ubah.setEnabled(false);
+            btn_hapus.setEnabled(false);
+            btn_simpan.setEnabled(false);
+            btn_batal.setEnabled(false);
+            btn_keluar.setEnabled(true);
+            nonaktif_teks();
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -276,8 +282,18 @@ public class formMahaiswa extends javax.swing.JFrame {
         });
 
         btn_batal.setText("Batal");
+        btn_batal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_batalActionPerformed(evt);
+            }
+        });
 
         btn_keluar.setText("Keluar");
+        btn_keluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_keluarActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
         jLabel7.setText("(yyyy-mm-dd)");
@@ -409,13 +425,14 @@ public class formMahaiswa extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_tambah)
-                    .addComponent(btn_ubah)
-                    .addComponent(btn_hapus)
-                    .addComponent(btn_simpan)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_keluar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_batal))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_tambah)
+                        .addComponent(btn_ubah)
+                        .addComponent(btn_hapus)
+                        .addComponent(btn_simpan)
+                        .addComponent(btn_batal)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -433,6 +450,7 @@ public class formMahaiswa extends javax.swing.JFrame {
         btn_simpan.setEnabled(true);
         btn_ubah.setEnabled(false);
         btn_hapus.setEnabled(false);
+        btn_batal.setEnabled(true);
         btn_keluar.setEnabled(false);
         aktif_teks();
     }//GEN-LAST:event_btn_tambahActionPerformed
@@ -450,11 +468,11 @@ public class formMahaiswa extends javax.swing.JFrame {
                 Connection kon = DriverManager.getConnection(database, user, pass);
                 Statement stt = kon.createStatement();
                 String SQL = "INSERT INTO t_mahasiswa VALUES("
-                        + " ' " + txt_nim.getText() + " ', "
-                        + " ' " + txt_nama.getText() + " ',"
-                        + " ' " + txt_tempat_lahir.getText() + " ', "
-                        + " ' " + txt_tanggal_lahir.getText() + " ', "
-                        + " ' " + txt_alamat.getText() + " ')";
+                        + " '" + txt_nim.getText() + "', "
+                        + " '" + txt_nama.getText() + "',"
+                        + " '" + txt_tempat_lahir.getText() + "', "
+                        + " '" + txt_tanggal_lahir.getText() + "', "
+                        + " '" + txt_alamat.getText() + " ')";
                 
                 stt.executeUpdate(SQL);
                 data[0] = txt_nim.getText();
@@ -478,6 +496,7 @@ public class formMahaiswa extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(evt.getClickCount() == 1) {
             tampil_field();
+            btn_keluar.setEnabled(true);
         }
     }//GEN-LAST:event_tabel_mahasiswaMouseClicked
 
@@ -516,6 +535,8 @@ public class formMahaiswa extends javax.swing.JFrame {
                 stt.close();
                 kon.close();
                 membersihkan_teks();
+                btn_ubah.setEnabled(false);
+                btn_hapus.setEnabled(false);
                 btn_simpan.setEnabled(false);
                 nonaktif_teks();
             } catch(Exception ex) {
@@ -538,6 +559,8 @@ public class formMahaiswa extends javax.swing.JFrame {
             stt.close();
             kon.close();
             membersihkan_teks();
+            btn_ubah.setEnabled(false);
+            btn_hapus.setEnabled(false);
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
         }
@@ -576,6 +599,18 @@ public class formMahaiswa extends javax.swing.JFrame {
         tableModel.setRowCount(0);
         settableload();
     }//GEN-LAST:event_btn_tampilActionPerformed
+
+    private void btn_batalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_batalActionPerformed
+        // TODO add your handling code here:
+        nonaktif_teks();
+        tableModel.setRowCount(0);
+        settableload();
+    }//GEN-LAST:event_btn_batalActionPerformed
+
+    private void btn_keluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_keluarActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btn_keluarActionPerformed
 
     /**
      * @param args the command line arguments
