@@ -15,8 +15,8 @@ public class FormMahasiswa {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        formMahaiswa frhMhs = new formMahaiswa();
-        frhMhs.setVisible(true);
+        frm_utama utama = new frm_utama();
+        utama.setVisible(true);
         
     }
     
