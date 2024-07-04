@@ -4,18 +4,96 @@
  */
 package form.mahasiswa;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ranggairghi
  */
 public class frm_nilai extends javax.swing.JFrame {
+    koneksi dbsetting;
+    String driver, database, user, pass;
+    Object tabel;
 
     /**
      * Creates new form frm_nilai
      */
     public frm_nilai() {
         initComponents();
+        dbsetting = new koneksi();
+        driver = dbsetting.SettingPanel("DBDriver");
+        database = dbsetting.SettingPanel("DBDatabase");
+        user = dbsetting.SettingPanel("DBUsername");
+        pass = dbsetting.SettingPanel("DBPassword");
+        tabel_nilai.setModel(tableModel);
+        
+        settableload();
     }
+    
+    private javax.swing.table.DefaultTableModel tableModel = getDefaultTabelModel();
+    private javax.swing.table.DefaultTableModel getDefaultTabelModel() {
+        return new javax.swing.table.DefaultTableModel(
+                new Object[][] {},
+                new String [] {
+                    "NIM",
+                    "Nama",
+                    "Mata Kuliah",
+                    "Nilai",
+                    "Index",
+                    "Keterangan"
+                }
+        )
+        {
+            boolean[] canEdit = new boolean[] {
+                false, false, false, false, false
+            };
+            
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+           
+        };
+    }
+    
+    String data[] = new String[6];
+    private void settableload() {
+        String atat = "";
+        try {
+            Class.forName(driver);
+            Connection kon = DriverManager.getConnection(database, user, pass);
+            Statement stt = kon.createStatement();
+            String SQL = "SELECT t_nilai.nim, "
+                    + "t_mahasiswa.nama, "
+                    + "t_mata_kuliah.nama_mk, "
+                    + "t_nilai.nilai, "
+                    + "t_nilai.index, "
+                    + "t_nilai.ket "
+                    + "from t_mahasiswa, t_mata_kuliah, t_nilai "
+                    + "WHERE t_nilai.nim = t_mahasiswa.nim and (t_nilai.kd_mk = t_mata_kuliah.kd_mk)";
+            ResultSet res = stt.executeQuery(SQL);
+            while(res.next()) {
+                data[0] = res.getString(1);
+                data[1] = res.getString(2);
+                data[2] = res.getString(3);
+                data[3] = res.getString(4);
+                data[4] = res.getString(5);
+                data[5] = res.getString(6);
+                tableModel.addRow(data);
+            }
+            res.close();
+            stt.close();
+            kon.close();
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,7 +120,7 @@ public class frm_nilai extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabel_nilai = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -96,8 +174,8 @@ public class frm_nilai extends javax.swing.JFrame {
                 .addGap(104, 104, 104)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
@@ -125,7 +203,7 @@ public class frm_nilai extends javax.swing.JFrame {
 
         jLabel6.setText("Nilai");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabel_nilai.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -136,7 +214,7 @@ public class frm_nilai extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabel_nilai);
 
         jButton3.setText("Tambah");
 
@@ -183,8 +261,8 @@ public class frm_nilai extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(134, 134, 134)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(138, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,7 +274,7 @@ public class frm_nilai extends javax.swing.JFrame {
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addGap(137, 137, 137))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,11 +367,11 @@ public class frm_nilai extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTable tabel_nilai;
     // End of variables declaration//GEN-END:variables
 }
