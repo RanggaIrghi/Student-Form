@@ -104,9 +104,8 @@ public class frm_utama extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        formMahaiswa frhMhs = new formMahaiswa();
+        frm_mhs frhMhs = new frm_mhs();
         frhMhs.setVisible(true);
-        
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 

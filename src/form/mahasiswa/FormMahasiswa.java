@@ -17,6 +17,8 @@ public class FormMahasiswa {
         // TODO code application logic here
         frm_utama utama = new frm_utama();
         utama.setVisible(true);
+        frm_mhs mhs = new frm_mhs();
+        mhs.setVisible(false);
         
     }
     
