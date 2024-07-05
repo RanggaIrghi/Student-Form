@@ -90,29 +90,29 @@ public class frm_mhs extends javax.swing.JFrame {
         }
     }
     
-    public void membersihkan_teks() {
-        txt_nim.setText("");
-        txt_nama.setText("");
-        txt_tanggal_lahir.setText("");
-        txt_tempat_lahir.setText("");
-        txt_alamat.setText("");
-    }
-    
-    public void nonaktif_teks() {
-        txt_nim.setEnabled(false);
-        txt_nama.setEnabled(false);
-        txt_tanggal_lahir.setEnabled(false);
-        txt_tempat_lahir.setEnabled(false);
-        txt_alamat.setEnabled(false);
-    }
-    
-    public void aktif_teks() {
-        txt_nim.setEnabled(true);
-        txt_nama.setEnabled(true);
-        txt_tanggal_lahir.setEnabled(true);
-        txt_tempat_lahir.setEnabled(true);
-        txt_alamat.setEnabled(true);
-    }
+        public void membersihkan_teks() {
+            txt_nim.setText("");
+            txt_nama.setText("");
+            txt_tanggal_lahir.setText("");
+            txt_tempat_lahir.setText("");
+            txt_alamat.setText("");
+        }
+
+        public void nonaktif_teks() {
+            txt_nim.setEnabled(false);
+            txt_nama.setEnabled(false);
+            txt_tanggal_lahir.setEnabled(false);
+            txt_tempat_lahir.setEnabled(false);
+            txt_alamat.setEnabled(false);
+        }
+
+        public void aktif_teks() {
+            txt_nim.setEnabled(true);
+            txt_nama.setEnabled(true);
+            txt_tanggal_lahir.setEnabled(true);
+            txt_tempat_lahir.setEnabled(true);
+            txt_alamat.setEnabled(true);
+        }
     
     int row = 0;
     public void tampil_field() {
@@ -384,8 +384,8 @@ public class frm_mhs extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane3))
                         .addContainerGap())))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_ubah, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -397,7 +397,7 @@ public class frm_mhs extends javax.swing.JFrame {
                 .addComponent(btn_batal, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_keluar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(88, 88, 88))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,7 +429,7 @@ public class frm_mhs extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_keluar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -437,7 +437,8 @@ public class frm_mhs extends javax.swing.JFrame {
                         .addComponent(btn_ubah)
                         .addComponent(btn_hapus)
                         .addComponent(btn_simpan)
-                        .addComponent(btn_batal))))
+                        .addComponent(btn_batal)))
+                .addContainerGap())
         );
 
         pack();
