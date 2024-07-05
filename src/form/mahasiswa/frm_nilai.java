@@ -423,7 +423,28 @@ public class frm_nilai extends javax.swing.JFrame {
 
     private void nimSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nimSelectorActionPerformed
         // TODO add your handling code here:
-        String selectedValue = nimSelector.getSelectedItem().toString();
+        String selectedNIM = (String) nimSelector.getSelectedItem();
+        if(selectedNIM != null) {
+            try {
+                Class.forName(driver);
+                Connection kon = DriverManager.getConnection(database, user, pass);
+                Statement stt = kon.createStatement();
+                String SQL = "SELECT nama FROM t_mahasiswa WHERE nim = '" + selectedNIM + "' ";
+                ResultSet res = stt.executeQuery(SQL);
+                if(res.next()) {
+                    txt_nama.setText(res.getString("nama"));
+                } else {
+                    txt_nama.setText("");
+                }
+                res.close();
+                stt.close();
+                kon.close();
+            } catch(Exception ex) {
+                System.err.println(ex.getMessage());
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        
     }//GEN-LAST:event_nimSelectorActionPerformed
 
     private void nimSelectorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nimSelectorMouseClicked
