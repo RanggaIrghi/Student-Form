@@ -36,7 +36,10 @@ public class frm_nilai extends javax.swing.JFrame {
     }
     
     public void membersihkan_teks() {
+        nimSelector.setSelectedItem("Pilih");
         txt_nama.setText(" ");
+        matkulSelector.setSelectedItem("Pilih");
+        kode_mk.setText(" ");
         txt_nilai.setText(" ");
         
     }
@@ -55,6 +58,19 @@ public class frm_nilai extends javax.swing.JFrame {
         matkulSelector.setEnabled(false);
         kode_mk.setEnabled(false);
         txt_nilai.setEnabled(false);
+    }
+    
+    int row = 0;
+    public void tampilData() {
+        row = tabel_nilai.getSelectedRow();
+        nimSelector.setSelectedItem(tableModel.getValueAt(row, 1));
+        txt_nama.setText(tableModel.getValueAt(row, 2).toString());
+        matkulSelector.setSelectedItem(tableModel.getValueAt(row, 3).toString());
+        kode_mk.setText(tableModel.getValueAt(row, 4).toString());
+        txt_nilai.setText(tableModel.getValueAt(row, 5).toString());
+        aktif_teks();
+        btn_ubah.setEnabled(true);
+        btn_hapus.setEnabled(true);
     }
     
     public char indexNilai(int nilai) {
@@ -130,9 +146,11 @@ public class frm_nilai extends javax.swing.JFrame {
         return new javax.swing.table.DefaultTableModel(
                 new Object[][] {},
                 new String [] {
+                    "KD Nilai",
                     "NIM",
                     "Nama",
                     "Mata Kuliah",
+                    "Kode Mata Kuliah",
                     "Nilai",
                     "Index",
                     "Keterangan"
@@ -150,16 +168,18 @@ public class frm_nilai extends javax.swing.JFrame {
         };
     }
     
-    String data[] = new String[6];
+    String data[] = new String[8];
     private void settableload() {
         String atat = "";
         try {
             Class.forName(driver);
             Connection kon = DriverManager.getConnection(database, user, pass);
             Statement stt = kon.createStatement();
-            String SQL = "SELECT t_nilai.nim, "
+            String SQL = "SELECT t_nilai.kd_nilai, "
+                    + "t_nilai.nim, "
                     + "t_mahasiswa.nama, "
                     + "t_mata_kuliah.nama_mk, "
+                    + "t_mata_kuliah.kd_mk, "
                     + "t_nilai.nilai, "
                     + "t_nilai.index, "
                     + "t_nilai.ket "
@@ -173,6 +193,8 @@ public class frm_nilai extends javax.swing.JFrame {
                 data[3] = res.getString(4);
                 data[4] = res.getString(5);
                 data[5] = res.getString(6);
+                data[6] = res.getString(7);
+                data[7] = res.getString(8);
                 tableModel.addRow(data);
             }
             res.close();
@@ -284,7 +306,7 @@ public class frm_nilai extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
-                .addGap(106, 106, 106))
+                .addGap(120, 120, 120))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,6 +343,11 @@ public class frm_nilai extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabel_nilai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabel_nilaiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabel_nilai);
 
         btn_tambah.setText("Tambah");
@@ -331,8 +358,18 @@ public class frm_nilai extends javax.swing.JFrame {
         });
 
         btn_ubah.setText("Ubah");
+        btn_ubah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ubahActionPerformed(evt);
+            }
+        });
 
         btn_hapus.setText("Hapus");
+        btn_hapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_hapusActionPerformed(evt);
+            }
+        });
 
         btn_simpan.setText("Simpan");
         btn_simpan.addActionListener(new java.awt.event.ActionListener() {
@@ -530,9 +567,10 @@ public class frm_nilai extends javax.swing.JFrame {
                 data[0] = nimSelector.getSelectedItem().toString();
                 data[1] = txt_nama.getText();
                 data[2] = matkulSelector.getSelectedItem().toString();
-                data[3] = txt_nilai.getText();
-                data[4] = Character.toString(indexNilai);
-                data[5] = ket;
+                data[3] = kode_mk.getText();
+                data[4] = txt_nilai.getText();
+                data[5] = Character.toString(indexNilai);
+                data[6] = ket;
                 tableModel.insertRow(0, data);
                 stt.close();
                 kon.close();
@@ -581,6 +619,89 @@ public class frm_nilai extends javax.swing.JFrame {
         frm_utama utama = new frm_utama();
         utama.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
+
+    private void tabel_nilaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_nilaiMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 1) {
+            tampilData();
+            btn_keluar.setEnabled(true);
+        }
+    }//GEN-LAST:event_tabel_nilaiMouseClicked
+
+    private void btn_ubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ubahActionPerformed
+        // TODO add your handling code here:
+        String kode_nilai = tableModel.getValueAt(row, 0).toString();
+        String nim = nimSelector.getSelectedItem().toString();
+        String nama = txt_nama.getText();
+        String kd_mk = kode_mk.getText();
+        String matkul = matkulSelector.getSelectedItem().toString();
+        int nilai = Integer.parseInt(txt_nilai.getText());
+        
+        if(((txt_nama.getText().isEmpty())) | (kode_mk.getText().isEmpty())) {
+            JOptionPane.showMessageDialog(null, "Data tidak boleh kosong, silahkan dilengkapi!");
+            txt_nilai.requestFocus();
+        } else if(nilai > 100 || txt_nilai.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Tolong isi nilai dengan benar!");
+        } else {
+            try {
+                Class.forName(driver);
+                Connection kon = DriverManager.getConnection(database, user, pass);
+                String index = String.valueOf(indexNilai(nilai));
+                String ket = keterangan(nilai);
+                Statement stt = kon.createStatement();
+                String SQL = "UPDATE t_nilai SET "
+                        + "kd_nilai = '" + kode_nilai + "', "
+                        + "nim = '" + nim + "', "
+                        + "kd_mk = '" + kd_mk + "', "
+                        + "nilai = '" + nilai + "', "
+                        + "`index` = '" + index + "', "
+                        + "ket = '" + ket + "' "
+                        + "WHERE nim = " + tableModel.getValueAt(row, 1);
+                stt.executeUpdate(SQL);
+                data[0] = kode_nilai;
+                data[1] = nim;
+                data[2] = nama;
+                data[3] = matkul;
+                data[4] = kd_mk;
+                data[5] = Integer.toString(nilai);
+                data[6] = String.valueOf(index);
+                data[7] = ket;
+                
+                tableModel.removeRow(row);
+                tableModel.insertRow(row, data);
+                stt.close();
+                kon.close();
+                membersihkan_teks();
+                btn_ubah.setEnabled(false);
+                btn_hapus.setEnabled(false);
+                btn_simpan.setEnabled(false);
+                nonAktif_teks();
+            } catch(Exception ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btn_ubahActionPerformed
+
+    private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
+        // TODO add your handling code here:
+        try {
+            Class.forName(driver);
+            Connection kon = DriverManager.getConnection(database, user, pass);
+            Statement stt = kon.createStatement();
+            String SQL = "DELETE FROM t_nilai "
+                    + "WHERE "
+                    + "nim = '"+ tableModel.getValueAt(row, 1).toString() + "'";
+            stt.execute(SQL);
+            tableModel.removeRow(row);
+            stt.close();
+            kon.close();
+            membersihkan_teks();
+            btn_ubah.setEnabled(false);
+            btn_hapus.setEnabled(false);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_btn_hapusActionPerformed
 
     /**
      * @param args the command line arguments
