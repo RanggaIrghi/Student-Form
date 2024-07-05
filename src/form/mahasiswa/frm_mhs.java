@@ -90,29 +90,29 @@ public class frm_mhs extends javax.swing.JFrame {
         }
     }
     
-    public void membersihkan_teks() {
-        txt_nim.setText("");
-        txt_nama.setText("");
-        txt_tanggal_lahir.setText("");
-        txt_tempat_lahir.setText("");
-        txt_alamat.setText("");
-    }
-    
-    public void nonaktif_teks() {
-        txt_nim.setEnabled(false);
-        txt_nama.setEnabled(false);
-        txt_tanggal_lahir.setEnabled(false);
-        txt_tempat_lahir.setEnabled(false);
-        txt_alamat.setEnabled(false);
-    }
-    
-    public void aktif_teks() {
-        txt_nim.setEnabled(true);
-        txt_nama.setEnabled(true);
-        txt_tanggal_lahir.setEnabled(true);
-        txt_tempat_lahir.setEnabled(true);
-        txt_alamat.setEnabled(true);
-    }
+        public void membersihkan_teks() {
+            txt_nim.setText("");
+            txt_nama.setText("");
+            txt_tanggal_lahir.setText("");
+            txt_tempat_lahir.setText("");
+            txt_alamat.setText("");
+        }
+
+        public void nonaktif_teks() {
+            txt_nim.setEnabled(false);
+            txt_nama.setEnabled(false);
+            txt_tanggal_lahir.setEnabled(false);
+            txt_tempat_lahir.setEnabled(false);
+            txt_alamat.setEnabled(false);
+        }
+
+        public void aktif_teks() {
+            txt_nim.setEnabled(true);
+            txt_nama.setEnabled(true);
+            txt_tanggal_lahir.setEnabled(true);
+            txt_tempat_lahir.setEnabled(true);
+            txt_alamat.setEnabled(true);
+        }
     
     int row = 0;
     public void tampil_field() {
