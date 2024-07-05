@@ -45,6 +45,7 @@ public class frm_nilai extends javax.swing.JFrame {
         nimSelector.setEnabled(true);
         txt_nama.setEnabled(true);
         matkulSelector.setEnabled(true);
+        kode_mk.setEnabled(true);
         txt_nilai.setEnabled(true);
     }
     
@@ -52,23 +53,40 @@ public class frm_nilai extends javax.swing.JFrame {
         nimSelector.setEnabled(false);
         txt_nama.setEnabled(false);
         matkulSelector.setEnabled(false);
+        kode_mk.setEnabled(false);
         txt_nilai.setEnabled(false);
     }
     
     public char indexNilai(int nilai) {
         char index;
-        if(nilai  <= 100) {
+        if(nilai  >= 81) {
             index = 'A';
-        } else if(nilai <= 80) {
+        } else if(nilai >= 60) {
             index = 'B';
-        } else if(nilai <= 60) {
+        } else if(nilai >= 40) {
             index = 'C';
-        } else if(nilai <= 40) {
+        } else if(nilai >= 30) {
             index = 'D';
         } else {
             index = 'E';
         }
         return index; 
+    }
+    
+    public String keterangan(int nilai) {
+        String ket;
+        if(nilai  >= 81) {
+            ket = "Lulus";
+        } else if(nilai >= 60) {
+            ket = "Lulus";
+        } else if(nilai >= 40) {
+            ket = "Lulus";
+        } else if(nilai >= 30) {
+            ket = "Lulus Bersyarat";
+        } else {
+            ket = "Tidak Lulus";
+        }
+        return ket; 
     }
     
     private void loadComboBox() {
@@ -207,6 +225,8 @@ public class frm_nilai extends javax.swing.JFrame {
         btn_keluar = new javax.swing.JButton();
         nimSelector = new javax.swing.JComboBox<>();
         matkulSelector = new javax.swing.JComboBox<>();
+        kode_mk = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -279,8 +299,10 @@ public class frm_nilai extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
         jLabel4.setText("Nama");
 
+        jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
         jLabel5.setText("Mata Kuliah");
 
+        jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
         jLabel6.setText("Nilai");
 
         tabel_nilai.setModel(new javax.swing.table.DefaultTableModel(
@@ -315,9 +337,15 @@ public class frm_nilai extends javax.swing.JFrame {
         });
 
         btn_batal.setText("Batal");
+        btn_batal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_batalActionPerformed(evt);
+            }
+        });
 
         btn_keluar.setText("Keluar");
 
+        nimSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih" }));
         nimSelector.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 nimSelectorMouseClicked(evt);
@@ -328,6 +356,16 @@ public class frm_nilai extends javax.swing.JFrame {
                 nimSelectorActionPerformed(evt);
             }
         });
+
+        matkulSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih" }));
+        matkulSelector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                matkulSelectorActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
+        jLabel7.setText("Kode MK");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -345,18 +383,18 @@ public class frm_nilai extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nimSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nimSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(62, 62, 62)
-                        .addComponent(txt_nilai, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(matkulSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt_nilai, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(matkulSelector, 0, 150, Short.MAX_VALUE)
+                    .addComponent(kode_mk))
                 .addGap(80, 80, 80))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
@@ -389,13 +427,21 @@ public class frm_nilai extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(nimSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(matkulSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_nilai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(kode_mk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_nilai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -405,7 +451,7 @@ public class frm_nilai extends javax.swing.JFrame {
                     .addComponent(btn_simpan)
                     .addComponent(btn_keluar)
                     .addComponent(btn_batal))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -419,6 +465,8 @@ public class frm_nilai extends javax.swing.JFrame {
         // TODO add your handling code here:
         nimSelector.requestFocus();
         aktif_teks();
+        btn_simpan.setEnabled(true);
+        btn_batal.setEnabled(true);
     }//GEN-LAST:event_btn_tambahActionPerformed
 
     private void nimSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nimSelectorActionPerformed
@@ -443,8 +491,7 @@ public class frm_nilai extends javax.swing.JFrame {
                 System.err.println(ex.getMessage());
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
             }
-        }
-        
+        } 
     }//GEN-LAST:event_nimSelectorActionPerformed
 
     private void nimSelectorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nimSelectorMouseClicked
@@ -454,24 +501,75 @@ public class frm_nilai extends javax.swing.JFrame {
 
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
         // TODO add your handling code here:
-//        if(txt_nilai.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Nilai tidak boleh kosong, silahkan dilengkapi!");
-//            txt_nilai.requestFocus();
-//        } else {
-//            try {
-//                Class.forName(driver);
-//                Connection kon = DriverManager.getConnection(database, user, pass);
-//                Statement stt = kon.createStatement();
-//                String SQL = "INSERT INTO t_nilai VALUES("
-//                        + " '" + 3 + "', "
-//                        + " '" + nimSelector.getSelectedItem() + "', "
-//                        + " '" + kd
-//                
-//            } catch(Exception ex) {
-//                
-//            }
-//        }
+        String data[] = new String[6];
+        if(txt_nama.getText().isEmpty() || kode_mk.getText().isEmpty() || txt_nilai.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Data tidak boleh kosong, silahkan dilengkapi!");
+        } else if(Integer.parseInt(txt_nilai.getText()) > 100){
+          JOptionPane.showMessageDialog(null, "Nilai tidak boleh lebih dari 100!");
+          txt_nilai.requestFocus();
+        } else {
+            try {
+                Class.forName(driver);
+                Connection kon = DriverManager.getConnection(database, user, pass);
+                Statement stt = kon.createStatement();
+                char indexNilai = indexNilai(Integer.parseInt(txt_nilai.getText()));
+                String ket = keterangan(Integer.parseInt(txt_nilai.getText()));
+                String SQL = "INSERT INTO t_nilai VALUES("
+                        + " '" + 4 + "', "
+                        + " '" + nimSelector.getSelectedItem() + "', "
+                        + " '" + kode_mk.getText() + "', "
+                        + " '" + txt_nilai.getText() + "', "
+                        + " '" + indexNilai + "', "
+                        + " '" + ket + "')";
+                stt.execute(SQL);
+                data[0] = nimSelector.getSelectedItem().toString();
+                data[1] = txt_nama.getText();
+                data[2] = matkulSelector.getSelectedItem().toString();
+                data[3] = txt_nilai.getText();
+                data[4] = Character.toString(indexNilai);
+                data[5] = ket;
+                tableModel.insertRow(0, data);
+                stt.close();
+                kon.close();
+                membersihkan_teks();
+                btn_simpan.setEnabled(false);
+                nonAktif_teks();
+            } catch(Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btn_simpanActionPerformed
+
+    private void matkulSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matkulSelectorActionPerformed
+        // TODO add your handling code here:
+        String selectedMK = (String) matkulSelector.getSelectedItem();
+        if(selectedMK != null) {
+            try {
+                Class.forName(driver);
+                Connection kon = DriverManager.getConnection(database, user, pass);
+                Statement stt = kon.createStatement();
+                String SQL = "SELECT kd_mk FROM t_mata_kuliah WHERE nama_mk = '" + selectedMK + "'";
+                ResultSet res = stt.executeQuery(SQL);
+                if(res.next()) {
+                    kode_mk.setText(res.getString("kd_mk"));
+                } else {
+                    kode_mk.setText("");
+                }
+                res.close();
+                stt.close();
+                kon.close();
+            } catch(Exception ex) {
+                System.err.println(ex.getMessage());
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } 
+    }//GEN-LAST:event_matkulSelectorActionPerformed
+
+    private void btn_batalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_batalActionPerformed
+        // TODO add your handling code here:
+        membersihkan_teks();
+        nonAktif_teks();
+    }//GEN-LAST:event_btn_batalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -523,10 +621,12 @@ public class frm_nilai extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField kode_mk;
     private javax.swing.JComboBox<String> matkulSelector;
     private javax.swing.JComboBox<String> nimSelector;
     private javax.swing.JTable tabel_nilai;
