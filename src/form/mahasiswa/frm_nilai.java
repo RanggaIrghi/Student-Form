@@ -559,15 +559,16 @@ public class frm_nilai extends javax.swing.JFrame {
                 Statement stt = kon.createStatement();
                 char indexNilai = indexNilai(Integer.parseInt(txt_nilai.getText()));
                 String ket = keterangan(Integer.parseInt(txt_nilai.getText()));
+                int kd_nilai = 2;
                 String SQL = "INSERT INTO t_nilai VALUES("
-                        + " '" + 2 + "', "
+                        + " '" + kd_nilai + "', "
                         + " '" + nimSelector.getSelectedItem() + "', "
                         + " '" + kode_mk.getText() + "', "
                         + " '" + txt_nilai.getText() + "', "
                         + " '" + indexNilai + "', "
                         + " '" + ket + "')";
                 stt.execute(SQL);
-                data[0] = tableModel.getValueAt(row, 0).toString();
+                data[0] = String.valueOf(kd_nilai);
                 data[1] = nimSelector.getSelectedItem().toString();
                 data[2] = txt_nama.getText();
                 data[3] = matkulSelector.getSelectedItem().toString();
