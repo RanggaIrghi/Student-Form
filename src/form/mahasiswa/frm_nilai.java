@@ -37,10 +37,10 @@ public class frm_nilai extends javax.swing.JFrame {
     
     public void membersihkan_teks() {
         nimSelector.setSelectedItem("Pilih");
-        txt_nama.setText(" ");
+        txt_nama.setText("");
         matkulSelector.setSelectedItem("Pilih");
         kode_mk.setText(" ");
-        txt_nilai.setText(" ");
+        txt_nilai.setText("");
         
     }
     
@@ -505,10 +505,13 @@ public class frm_nilai extends javax.swing.JFrame {
 
     private void btn_tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tambahActionPerformed
         // TODO add your handling code here:
+        membersihkan_teks();
         nimSelector.requestFocus();
         aktif_teks();
         btn_simpan.setEnabled(true);
         btn_batal.setEnabled(true);
+        btn_ubah.setEnabled(false);
+        btn_hapus.setEnabled(false);
     }//GEN-LAST:event_btn_tambahActionPerformed
 
     private void nimSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nimSelectorActionPerformed
@@ -543,7 +546,7 @@ public class frm_nilai extends javax.swing.JFrame {
 
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
         // TODO add your handling code here:
-        String data[] = new String[6];
+        String data[] = new String[8];
         if(txt_nama.getText().isEmpty() || kode_mk.getText().isEmpty() || txt_nilai.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Data tidak boleh kosong, silahkan dilengkapi!");
         } else if(Integer.parseInt(txt_nilai.getText()) > 100){
@@ -557,20 +560,21 @@ public class frm_nilai extends javax.swing.JFrame {
                 char indexNilai = indexNilai(Integer.parseInt(txt_nilai.getText()));
                 String ket = keterangan(Integer.parseInt(txt_nilai.getText()));
                 String SQL = "INSERT INTO t_nilai VALUES("
-                        + " '" + 4 + "', "
+                        + " '" + 2 + "', "
                         + " '" + nimSelector.getSelectedItem() + "', "
                         + " '" + kode_mk.getText() + "', "
                         + " '" + txt_nilai.getText() + "', "
                         + " '" + indexNilai + "', "
                         + " '" + ket + "')";
                 stt.execute(SQL);
-                data[0] = nimSelector.getSelectedItem().toString();
-                data[1] = txt_nama.getText();
-                data[2] = matkulSelector.getSelectedItem().toString();
-                data[3] = kode_mk.getText();
-                data[4] = txt_nilai.getText();
-                data[5] = Character.toString(indexNilai);
-                data[6] = ket;
+                data[0] = tableModel.getValueAt(row, 0).toString();
+                data[1] = nimSelector.getSelectedItem().toString();
+                data[2] = txt_nama.getText();
+                data[3] = matkulSelector.getSelectedItem().toString();
+                data[4] = kode_mk.getText();
+                data[5] = txt_nilai.getText();
+                data[6] = String.valueOf(indexNilai);
+                data[7] = ket;
                 tableModel.insertRow(0, data);
                 stt.close();
                 kon.close();
@@ -612,6 +616,7 @@ public class frm_nilai extends javax.swing.JFrame {
         // TODO add your handling code here:
         membersihkan_teks();
         nonAktif_teks();
+        btn_simpan.setEnabled(false);
     }//GEN-LAST:event_btn_batalActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -696,6 +701,7 @@ public class frm_nilai extends javax.swing.JFrame {
             stt.close();
             kon.close();
             membersihkan_teks();
+            nonAktif_teks();
             btn_ubah.setEnabled(false);
             btn_hapus.setEnabled(false);
         } catch(Exception ex) {
